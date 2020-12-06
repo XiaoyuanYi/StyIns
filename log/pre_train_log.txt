@@ -1,3 +1,6 @@
+epoch: 1, 1/188 0.5%, 0.31s per iter, lr: 0.0001
+    recon loss: 9.161  ppl:9513.85
+
 epoch: 1, 1/125 0.8%, 0.29s per iter, lr: 0.0001
     recon loss: 9.174  ppl:9647.46
 
@@ -12,4 +15,187 @@ epoch: 1, 31/125 24.8%, 2.94s per iter, lr: 0.0005
 
 epoch: 1, 41/125 32.8%, 3.04s per iter, lr: 0.0007
     recon loss: 7.075  ppl:1182.48
+
+epoch: 1, 51/125 40.8%, 6.69s per iter, lr: 0.0008
+    recon loss: 6.822  ppl:918.21
+
+epoch: 1, 61/125 48.8%, 7.02s per iter, lr: 0.0007
+    recon loss: 6.638  ppl:763.78
+
+epoch: 1, 71/125 56.8%, 2.74s per iter, lr: 0.0006
+    recon loss: 6.509  ppl:671.40
+
+epoch: 1, 81/125 64.8%, 2.68s per iter, lr: 0.0006
+    recon loss: 6.432  ppl:621.16
+
+epoch: 1, 91/125 72.8%, 2.63s per iter, lr: 0.0005
+    recon loss: 6.376  ppl:587.73
+
+epoch: 1, 101/125 80.8%, 2.74s per iter, lr: 0.0005
+    recon loss: 6.323  ppl:557.12
+
+epoch: 1, 1/125 0.8%, 0.29s per iter, lr: 0.0001
+    recon loss: 9.172  ppl:9626.34
+
+epoch: 1, 11/125 8.8%, 2.63s per iter, lr: 0.0003
+    recon loss: 9.082  ppl:8792.83
+
+epoch: 1, 21/125 16.8%, 2.71s per iter, lr: 0.0004
+    recon loss: 8.342  ppl:4198.15
+
+epoch: 1, 31/125 24.8%, 2.99s per iter, lr: 0.0005
+    recon loss: 7.569  ppl:1936.71
+
+epoch: 1, 41/125 32.8%, 6.14s per iter, lr: 0.0007
+    recon loss: 7.113  ppl:1227.82
+
+epoch: 1, 51/125 40.8%, 5.37s per iter, lr: 0.0008
+    recon loss: 6.874  ppl:966.86
+
+epoch: 1, 61/125 48.8%, 2.63s per iter, lr: 0.0007
+    recon loss: 6.688  ppl:803.03
+
+epoch: 1, 71/125 56.8%, 3.86s per iter, lr: 0.0006
+    recon loss: 6.590  ppl:727.57
+
+epoch: 1, 81/125 64.8%, 2.83s per iter, lr: 0.0006
+    recon loss: 6.502  ppl:666.75
+
+epoch: 1, 91/125 72.8%, 2.66s per iter, lr: 0.0005
+    recon loss: 6.418  ppl:612.51
+
+epoch: 1, 101/125 80.8%, 2.64s per iter, lr: 0.0005
+    recon loss: 6.355  ppl:575.10
+
+epoch: 1, 111/125 88.8%, 2.61s per iter, lr: 0.0004
+    recon loss: 6.297  ppl:543.18
+
+epoch: 1, 121/125 96.8%, 2.67s per iter, lr: 0.0004
+    recon loss: 6.236  ppl:510.63
+
+epoch: 1, 1/125 0.8%, 0.30s per iter, lr: 0.0001
+    recon loss: 9.174  ppl:9645.43
+
+epoch: 1, 11/125 8.8%, 2.79s per iter, lr: 0.0003
+    recon loss: 9.079  ppl:8771.32
+
+epoch: 1, 21/125 16.8%, 2.76s per iter, lr: 0.0004
+    recon loss: 8.265  ppl:3886.13
+
+epoch: 1, 1/125 0.8%, 0.27s per iter, lr: 0.0001
+    recon loss: 9.183  ppl:9730.93
+
+epoch: 1, 11/125 8.8%, 2.51s per iter, lr: 0.0003
+    recon loss: 9.072  ppl:8710.44
+
+epoch: 1, 21/125 16.8%, 2.57s per iter, lr: 0.0004
+    recon loss: 8.299  ppl:4021.78
+
+epoch: 1, 31/125 24.8%, 2.70s per iter, lr: 0.0005
+    recon loss: 7.509  ppl:1823.82
+
+epoch: 1, 41/125 32.8%, 3.20s per iter, lr: 0.0007
+    recon loss: 7.076  ppl:1182.84
+
+epoch: 1, 51/125 40.8%, 8.95s per iter, lr: 0.0008
+    recon loss: 6.839  ppl:933.52
+
+epoch: 1, 61/125 48.8%, 7.70s per iter, lr: 0.0007
+    recon loss: 6.656  ppl:777.54
+
+epoch: 1, 71/125 56.8%, 7.33s per iter, lr: 0.0006
+    recon loss: 6.536  ppl:689.52
+
+epoch: 1, 81/125 64.8%, 3.29s per iter, lr: 0.0006
+    recon loss: 6.449  ppl:631.82
+
+epoch: 1, 91/125 72.8%, 2.84s per iter, lr: 0.0005
+    recon loss: 6.368  ppl:583.14
+
+epoch: 1, 101/125 80.8%, 2.72s per iter, lr: 0.0005
+    recon loss: 6.327  ppl:559.51
+
+epoch: 1, 111/125 88.8%, 2.76s per iter, lr: 0.0004
+    recon loss: 6.279  ppl:533.29
+
+epoch: 1, 121/125 96.8%, 2.76s per iter, lr: 0.0004
+    recon loss: 6.229  ppl:507.18
+
+epoch: 1, 1/125 0.8%, 0.27s per iter, lr: 0.0001
+    recon loss: 9.176  ppl:9663.87
+
+epoch: 1, 11/125 8.8%, 2.53s per iter, lr: 0.0003
+    recon loss: 9.036  ppl:8400.08
+
+epoch: 1, 21/125 16.8%, 2.51s per iter, lr: 0.0004
+    recon loss: 8.265  ppl:3887.14
+
+epoch: 1, 31/125 24.8%, 2.78s per iter, lr: 0.0005
+    recon loss: 7.460  ppl:1737.06
+
+epoch: 1, 41/125 32.8%, 2.84s per iter, lr: 0.0007
+    recon loss: 7.038  ppl:1139.35
+
+epoch: 1, 51/125 40.8%, 3.83s per iter, lr: 0.0008
+    recon loss: 6.785  ppl:884.90
+
+epoch: 1, 61/125 48.8%, 5.29s per iter, lr: 0.0007
+    recon loss: 6.638  ppl:763.33
+
+epoch: 1, 71/125 56.8%, 4.39s per iter, lr: 0.0006
+    recon loss: 6.523  ppl:680.81
+
+epoch: 1, 81/125 64.8%, 4.03s per iter, lr: 0.0006
+    recon loss: 6.421  ppl:614.44
+
+epoch: 1, 91/125 72.8%, 3.56s per iter, lr: 0.0005
+    recon loss: 6.351  ppl:572.96
+
+epoch: 1, 101/125 80.8%, 3.24s per iter, lr: 0.0005
+    recon loss: 6.296  ppl:542.17
+
+epoch: 1, 111/125 88.8%, 3.03s per iter, lr: 0.0004
+    recon loss: 6.252  ppl:519.00
+
+epoch: 1, 121/125 96.8%, 2.75s per iter, lr: 0.0004
+    recon loss: 6.195  ppl:490.10
+
+epoch: 1, 1/125 0.8%, 0.27s per iter, lr: 0.0001
+    recon loss: 9.171  ppl:9612.85
+
+epoch: 1, 11/125 8.8%, 2.54s per iter, lr: 0.0003
+    recon loss: 9.091  ppl:8874.81
+
+epoch: 1, 21/125 16.8%, 2.51s per iter, lr: 0.0004
+    recon loss: 8.376  ppl:4343.47
+
+epoch: 1, 31/125 24.8%, 2.78s per iter, lr: 0.0005
+    recon loss: 7.547  ppl:1894.83
+
+epoch: 1, 41/125 32.8%, 2.76s per iter, lr: 0.0007
+    recon loss: 7.119  ppl:1235.27
+
+epoch: 1, 51/125 40.8%, 3.91s per iter, lr: 0.0008
+    recon loss: 6.862  ppl:955.21
+
+epoch: 1, 61/125 48.8%, 5.05s per iter, lr: 0.0007
+    recon loss: 6.702  ppl:813.92
+
+epoch: 1, 71/125 56.8%, 16.96s per iter, lr: 0.0006
+    recon loss: 6.569  ppl:712.76
+
+epoch: 1, 81/125 64.8%, 5.25s per iter, lr: 0.0006
+    recon loss: 6.459  ppl:638.55
+
+epoch: 1, 91/125 72.8%, 3.16s per iter, lr: 0.0005
+    recon loss: 6.385  ppl:592.72
+
+epoch: 1, 101/125 80.8%, 3.14s per iter, lr: 0.0005
+    recon loss: 6.302  ppl:545.89
+
+epoch: 1, 111/125 88.8%, 2.92s per iter, lr: 0.0004
+    recon loss: 6.260  ppl:523.38
+
+epoch: 1, 121/125 96.8%, 2.59s per iter, lr: 0.0004
+    recon loss: 6.206  ppl:495.54
 
