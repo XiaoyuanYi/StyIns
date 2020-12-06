@@ -1,0 +1,70 @@
+epoch: 1, 1/125 0.8%, 0.71s per iter, lr: 0.0001, tr: 1.00, ts: 0
+    recon loss: 5.681  ppl:293.15, style loss: 0.965, cycle loss: 5.682
+    dis real1 loss: 1.091, dis real2 loss: 1.786, dis fake loss: 1.228
+    teach prior loss: 0.000, teach post loss: 0.000, teach kl obj: 0.000
+
+epoch: 1, 11/125 8.8%, 6.49s per iter, lr: 0.0003, tr: 1.00, ts: 0
+    recon loss: 5.830  ppl:340.38, style loss: 1.134, cycle loss: 5.831
+    dis real1 loss: 1.165, dis real2 loss: 1.072, dis fake loss: 1.046
+    teach prior loss: 0.000, teach post loss: 0.000, teach kl obj: 0.000
+
+epoch: 1, 21/125 16.8%, 6.52s per iter, lr: 0.0004, tr: 1.00, ts: 0
+    recon loss: 5.857  ppl:349.83, style loss: 1.182, cycle loss: 5.859
+    dis real1 loss: 1.214, dis real2 loss: 1.016, dis fake loss: 0.972
+    teach prior loss: 0.000, teach post loss: 0.000, teach kl obj: 0.000
+
+epoch: 1, 31/125 24.8%, 6.48s per iter, lr: 0.0005, tr: 1.00, ts: 0
+    recon loss: 5.942  ppl:380.52, style loss: 1.219, cycle loss: 5.945
+    dis real1 loss: 1.235, dis real2 loss: 0.930, dis fake loss: 0.924
+    teach prior loss: 0.000, teach post loss: 0.000, teach kl obj: 0.000
+
+epoch: 1, 41/125 32.8%, 6.71s per iter, lr: 0.0007, tr: 1.00, ts: 0
+    recon loss: 5.983  ppl:396.66, style loss: 1.240, cycle loss: 5.984
+    dis real1 loss: 1.262, dis real2 loss: 0.875, dis fake loss: 0.886
+    teach prior loss: 0.000, teach post loss: 0.000, teach kl obj: 0.000
+
+epoch: 1, 51/125 40.8%, 6.64s per iter, lr: 0.0008, tr: 1.00, ts: 0
+    recon loss: 6.044  ppl:421.67, style loss: 1.267, cycle loss: 6.045
+    dis real1 loss: 1.274, dis real2 loss: 0.858, dis fake loss: 0.862
+    teach prior loss: 0.000, teach post loss: 0.000, teach kl obj: 0.000
+
+epoch: 1, 61/125 48.8%, 7.88s per iter, lr: 0.0007, tr: 1.00, ts: 0
+    recon loss: 6.066  ppl:431.07, style loss: 1.277, cycle loss: 6.067
+    dis real1 loss: 1.284, dis real2 loss: 0.843, dis fake loss: 0.844
+    teach prior loss: 0.000, teach post loss: 0.000, teach kl obj: 0.000
+
+epoch: 1, 71/125 56.8%, 7.12s per iter, lr: 0.0006, tr: 1.00, ts: 0
+    recon loss: 6.119  ppl:454.54, style loss: 1.286, cycle loss: 6.120
+    dis real1 loss: 1.293, dis real2 loss: 0.817, dis fake loss: 0.830
+    teach prior loss: 0.000, teach post loss: 0.000, teach kl obj: 0.000
+
+epoch: 1, 81/125 64.8%, 6.40s per iter, lr: 0.0006, tr: 1.00, ts: 0
+    recon loss: 6.141  ppl:464.55, style loss: 1.289, cycle loss: 6.141
+    dis real1 loss: 1.296, dis real2 loss: 0.802, dis fake loss: 0.823
+    teach prior loss: 0.000, teach post loss: 0.000, teach kl obj: 0.000
+
+epoch: 1, 91/125 72.8%, 7.74s per iter, lr: 0.0005, tr: 1.00, ts: 0
+    recon loss: 6.148  ppl:467.72, style loss: 1.298, cycle loss: 6.148
+    dis real1 loss: 1.305, dis real2 loss: 0.784, dis fake loss: 0.811
+    teach prior loss: 0.000, teach post loss: 0.000, teach kl obj: 0.000
+
+epoch: 1, 101/125 80.8%, 7.32s per iter, lr: 0.0005, tr: 1.00, ts: 0
+    recon loss: 6.149  ppl:468.46, style loss: 1.306, cycle loss: 6.148
+    dis real1 loss: 1.304, dis real2 loss: 0.751, dis fake loss: 0.805
+    teach prior loss: 0.000, teach post loss: 0.000, teach kl obj: 0.000
+
+epoch: 1, 111/125 88.8%, 7.82s per iter, lr: 0.0004, tr: 1.00, ts: 0
+    recon loss: 6.195  ppl:490.43, style loss: 1.306, cycle loss: 6.194
+    dis real1 loss: 1.313, dis real2 loss: 0.741, dis fake loss: 0.798
+    teach prior loss: 0.000, teach post loss: 0.000, teach kl obj: 0.000
+
+epoch: 1, 121/125 96.8%, 6.20s per iter, lr: 0.0004, tr: 1.00, ts: 0
+    recon loss: 6.201  ppl:493.23, style loss: 1.310, cycle loss: 6.199
+    dis real1 loss: 1.308, dis real2 loss: 0.720, dis fake loss: 0.797
+    teach prior loss: 0.000, teach post loss: 0.000, teach kl obj: 0.000
+
+epoch: 2, 1/125 0.8%, 0.86s per iter, lr: 0.0004, tr: 1.00, ts: 0
+    recon loss: 6.211  ppl:498.21, style loss: 1.307, cycle loss: 6.208
+    dis real1 loss: 1.311, dis real2 loss: 0.722, dis fake loss: 0.797
+    teach prior loss: 0.000, teach post loss: 0.000, teach kl obj: 0.000
+

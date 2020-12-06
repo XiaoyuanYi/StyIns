@@ -1,0 +1,6 @@
+epoch: 1, lr: 0.0004, tr: 1.00
+    recon loss: 6.398  ppl:600.55, style loss: 1.339, cycle loss: 6.377
+    dis real1 loss: 1.312, dis real2 loss: 0.568, dis fake loss: 0.763
+    teach prior loss: 0.000, teach post loss: 0.000, teach kl obj: 0.000
+
+

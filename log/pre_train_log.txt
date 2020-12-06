@@ -1,0 +1,15 @@
+epoch: 1, 1/125 0.8%, 0.29s per iter, lr: 0.0001
+    recon loss: 9.174  ppl:9647.46
+
+epoch: 1, 11/125 8.8%, 2.92s per iter, lr: 0.0003
+    recon loss: 9.075  ppl:8733.31
+
+epoch: 1, 21/125 16.8%, 2.89s per iter, lr: 0.0004
+    recon loss: 8.293  ppl:3997.21
+
+epoch: 1, 31/125 24.8%, 2.94s per iter, lr: 0.0005
+    recon loss: 7.496  ppl:1800.58
+
+epoch: 1, 41/125 32.8%, 3.04s per iter, lr: 0.0007
+    recon loss: 7.075  ppl:1182.48
+

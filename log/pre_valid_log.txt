@@ -1,0 +1,9 @@
+epoch: 1, lr: 0.0004
+    recon loss: 6.010  ppl:407.51
+
+epoch: 1, lr: 0.0004
+    recon loss: 5.937  ppl:378.65
+
+epoch: 1, lr: 0.0004
+    recon loss: 6.020  ppl:411.51
+
