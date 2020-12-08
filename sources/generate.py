@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @Author: Xiaoyuan Yi
 # @Last Modified by:   Xiaoyuan Yi
-# @Last Modified time: 2020-12-06 10:10:37
+# @Last Modified time: 2020-12-08 00:12:07
 # @Email: yi-xy16@mails.tsinghua.edu.cn
 # @Description:
 '''
@@ -46,7 +46,7 @@ def generate_file(generator, infile ,outfile, required_style):
 
 
 def generate_file_all(generator, infile, outfile_prefix, style_id):
-    epoch = [14]#[6, 8, 10, 12, 14, 16, 18]
+    epoch = [4, 6, 8, 10, 12, 14, 16, 18, 20]
     epoch.reverse()
 
     for e in epoch:
@@ -59,21 +59,37 @@ def main():
     args = parse_args()
     if args.task == 'yelp':
         hps = yelp_hps
+        tgt1_prefix = "../outs/yelp_to1"
+        tgt0_prefix = "../outs/yelp_to0"
+
+        tgt1_file = "../outs/yelp_to1.txt"
+        tgt0_file = "../outs/yelp_to0.txt"
+
+        src1_file = "../inps/sentiment.test.0"
+        src0_file = "../inps/sentiment.test.1"
     else:
         hps = gyafc_hps
+        tgt1_prefix = "../outs/gyafc_to1"
+        tgt0_prefix = "../outs/gyafc_to0"
+
+        tgt1_file = "../outs/gyafc_to1.txt"
+        tgt0_file = "../outs/gyafc_to0.txt"
+
+        src1_file = "../inps/informal.txt"
+        src0_file = "../inps/formal.txt"
 
     generator = Generator(hps, device)
 
-    if args.e == -1:
-        generate_file_all(generator, "../inps/sentiment.test.0", "../outs/gyafc_to1", 1)
-        generate_file_all(generator, "../inps/sentiment.test.1", "../outs/gyafc_to0", 0)
+    if args.epoch == -1:
+        generate_file_all(generator, src1_file, tgt1_prefix, 1)
+        generate_file_all(generator, src0_file, tgt0_prefix, 0)
 
-    elif args.e >= 0:
-        if args.e > 0:
-            generator.reload_checkpoint(args.e)
+    elif args.epoch >= 0:
+        if args.epoch > 0:
+            generator.reload_checkpoint(args.epoch)
 
-        generate_file(generator, "../inps/sentiment.test.0", "../outs/gyafc_to1.txt", 1)
-        generate_file(generator, "../inps/sentiment.test.1", "../outs/gyafc_to0.txt", 0)
+        generate_file(generator, src1_file, tgt1_file, 1)
+        generate_file(generator, src0_file, tgt0_file, 0)
 
 
 
