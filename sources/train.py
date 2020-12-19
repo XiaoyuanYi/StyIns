@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @Author: Xiaoyuan Yi
 # @Last Modified by:   Xiaoyuan Yi
-# @Last Modified time: 2020-12-18 20:24:48
+# @Last Modified time: 2020-12-19 10:40:32
 # @Email: yi-xy16@mails.tsinghua.edu.cn
 # @Description:
 '''
@@ -91,7 +91,7 @@ def main():
     pretrain_method = hps.pretrain_method
 
     pretrain(generator, tool, hps, device, pretrain_method)
-    train(generator, discriminator, tool, hps, device)
+    train(generator, discriminator, tool, hps, device, pretrain_method)
 
 
 if __name__ == "__main__":
