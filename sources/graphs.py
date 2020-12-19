@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @Author: Xiaoyuan Yi
 # @Last Modified by:   Xiaoyuan Yi
-# @Last Modified time: 2020-12-06 16:26:31
+# @Last Modified time: 2020-12-17 19:57:24
 # @Email: yi-xy16@mails.tsinghua.edu.cn
 # @Description:
 '''
@@ -166,19 +166,19 @@ class Seq2Seq(nn.Module):
 
         k_mu = mu.unsqueeze(0).repeat(n_ins, 1, 1) # (K, B, latent_size)
         std_sq = (points - k_mu).pow(2)
-        std = torch.sqrt(std_sq.sum(dim=0) / (n_ins-1)) # unbiased estimator for variance
+        std_sq = std_sq.sum(dim=0) / (n_ins-1) # unbiased estimator for variance
 
-        return mu, std, h
+        return mu, std_sq, h
 
 
     def extract_style_features(self, instances):
-        mu, std, h = self.build_initial_gaussian(instances)
-        eps = torch.randn_like(std)
-        z0 = mu + eps * std # (B, 2*H)
+        mu, std_sq, h = self.build_initial_gaussian(instances)
+        eps = torch.randn_like(mu)
+        z0 = mu + eps * torch.sqrt(std_sq+1e-10) # (B, 2*H)
 
         # log q(z_t|c) = log q(z_0|c) - sum log det|d_zt/dz_(t-1)|
         # log q(z) = -0.5*log(2*pi) - log(sigma) - 0.5 * eps**2
-        log_qz0 = - 0.5*self._log2pi - torch.log(std) - 0.5 * eps**2
+        log_qz0 = - 0.5*self._log2pi - 0.5 * torch.log(std_sq+1e-10) - 0.5 * eps**2
 
         # build flow
         z, log_det = self.layers['iaf'](z0, h)
@@ -350,3 +350,45 @@ class Seq2Seq(nn.Module):
         dec_init_state = self.calcu_dec_init(enc_state)
 
         return enc_outs, dec_init_state, style_feature, attn_mask
+
+
+
+#-----------------------------------------------
+#--------------------------------------------------------------
+class LM(nn.Module):
+    def __init__(self, hps,device):
+        super(LM, self).__init__()
+        self.hps = hps
+        self.device = device
+        self.emb_size = hps.emb_size
+        self.hidden_size = hps.hidden_size
+        self.vocab_size = hps.vocab_size
+
+        self.pad_idx = hps.pad_idx
+
+        # componets
+        self.layers = nn.ModuleDict()
+        self.layers['word_embed'] = nn.Embedding(self.vocab_size, self.emb_size, padding_idx=self.pad_idx)
+        self.layers['encoder'] = Encoder(self.emb_size, self.hidden_size, drop_ratio=hps.drop_ratio)
+        self.layers['out_proj'] = nn.Linear(hps.hidden_size, hps.vocab_size)
+
+
+    def forward(self, inps):
+        #print (inps.size())
+        emb_inps = self.layers['word_embed'](inps) # (batch_size, length, emb_size)
+        enc_outs, enc_state = self.layers['encoder'](emb_inps) # [B, L, 2*H]
+
+        # seperately optimize forward and backward
+        batch_size, seq_len = enc_outs.size(0), enc_outs.size(1)
+
+        outs = enc_outs.view(batch_size, seq_len, 2, -1)
+
+        forward_outs = outs[:, :, 0, :] # [B, L, H]
+        backward_outs = outs[:, :, 1, :]
+
+        fouts = self.layers['out_proj'](forward_outs)
+        bouts = self.layers['out_proj'](backward_outs)
+
+        return fouts, bouts
+
+#--------------------------------------------------------------

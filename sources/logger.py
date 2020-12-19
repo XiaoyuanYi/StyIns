@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @Author: Xiaoyuan Yi
 # @Last Modified by:   Xiaoyuan Yi
-# @Last Modified time: 2020-12-06 09:56:41
+# @Last Modified time: 2020-12-18 20:18:57
 # @Email: yi-xy16@mails.tsinghua.edu.cn
 # @Description:
 '''
@@ -209,7 +209,7 @@ class StyInsLogger(InfoLogger):
 # ----------------------------------------------
 class PreLogger(InfoLogger):
     def __init__(self, mode):
-        super(PreLogger, self).__init__(mode)
+        super(LMLogger, self).__init__(mode)
 
         self._total_recon_loss = 0.0
 

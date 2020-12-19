@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @Author: Xiaoyuan Yi
 # @Last Modified by:   Xiaoyuan Yi
-# @Last Modified time: 2020-12-06 09:56:16
+# @Last Modified time: 2020-12-18 20:18:22
 # @Email: yi-xy16@mails.tsinghua.edu.cn
 # @Description:
 '''
@@ -129,6 +129,61 @@ def save_checkpoint_multiple(model_dir, gen_model, dis_model,
     fout.close()
 
 
+#---------------------------------------
+#---------------------------------------
+def restore_checkpoint_overlap(model_dir, model, device):
+    ckpt_list_path = os.path.join(model_dir, "ckpt_list.txt")
+    if not os.path.exists(ckpt_list_path):
+        print ("checkpoint list not exists, creat new one!")
+
+    # get latest ckpt name
+    fin = open(ckpt_list_path, 'r')
+    latest_ckpt_path = fin.readlines()[-1].strip()
+    fin.close()
+
+    latest_ckpt_path = os.path.join(model_dir, latest_ckpt_path)
+    if not os.path.exists(latest_ckpt_path):
+        print ("latest checkpoint not exists!")
+
+    print ("restore checkpoint from %s" % (latest_ckpt_path))
+    print ("loading...")
+    checkpoint = torch.load(latest_ckpt_path, map_location=device)
+    #checkpoint = torch.load(latest_ckpt_path)
+
+    print ("load state dic...")
+    ori_dic = model.state_dict()
+    ckpt_dic = checkpoint['gen_model_state_dict']
+
+    overlap_dic = {}
+    overlap_dic['layers.word_embed.weight'] = ckpt_dic['layers.word_embed.weight']
+
+
+    ckpt_names = {}
+    for ckpt_key in ckpt_dic.keys():
+        ckpt_names
+    print (ckpt_dic.keys())
+
+    for ori_key in ori_dic.keys():
+        for ckpt_key in ckpt_dic.keys():
+            ori_name = ".".join(ori_key.split(".")[-2:])
+            ckpt_name = ".".join(ckpt_key.split(".")[-2:])
+            #print (ckpt_name)
+            if ori_name == ckpt_name:
+                overlap_dic[ori_key] = ckpt_dic[ckpt_key]
+                print ("load %s from %s" % (ori_key, ckpt_key))
+
+    ori_dic.update(overlap_dic)
+    model.load_state_dict(ori_dic)
+
+    print ("ok! pre-trained params num: %d" % (len(overlap_dic)))
+
+#-------------------------------------
+def safe_loss(ori_loss):
+    loss = torch.where(torch.isnan(ori_loss), torch.full_like(ori_loss, 0.0), ori_loss)
+    loss = torch.where(torch.isinf(loss), torch.full_like(loss, 1.0), loss)
+    return loss
+
+
 #----------------------------------------------------------------
 def sample(x, outs_prior, outs_post, y, x_id, y_id, sample_num, tool):
     # x: (B, L)
@@ -174,7 +229,7 @@ def sample(x, outs_prior, outs_post, y, x_id, y_id, sample_num, tool):
 
 
 
-def sample_pre(x, x_outs, x_id, sample_num, tool):
+def sample_lm(x, x_outs, sample_num, tool):
     # x: (B, L)
     # logits: (B, L, V)
     bsz = x.size(0)
@@ -199,10 +254,47 @@ def sample_pre(x, x_outs, x_id, sample_num, tool):
         x_out_line = tool.greedy_search(x_out_line)
 
 
-        print ("style id: " + str(x_id))
         print("x: " + x_line + "\n")
         print("x out: " + x_out_line + "\n")
         print ("")
+
+
+def sample_dae(x, x_outs, x_tgt, x_id, sample_num, tool):
+    # x: (B, L)
+    # logits: (B, L, V)
+    bsz = x.size(0)
+
+    x_out_probs = torch.nn.functional.softmax(x_outs, dim=-1)
+
+    sample_num = min(sample_num, bsz)
+
+    # select some random examples
+    idx_vec = random.sample(list(range(0, bsz)), sample_num)
+
+
+    for idx in idx_vec:
+        # build lines
+        x_len = x.size(1)
+        x_indices = [x[idx, t].item() for t in range(0, x_len)]
+        x_line = tool.indices2sent(x_indices, True, False)
+
+
+        x_out_len = x_out_probs.size(1)
+        x_out_line = [x_out_probs[idx, t, :].cpu().data.numpy() for t in range(0, x_out_len)]
+        x_out_line = tool.greedy_search(x_out_line)
+
+
+        x_tgt_len = x_tgt.size(1)
+        x_tgt_indices = [x_tgt[idx, t].item() for t in range(0, x_tgt_len)]
+        x_tgt_line = tool.indices2sent(x_tgt_indices, True, False)
+
+
+        print ("style id: " + str(x_id))
+        print("x: " + x_line + "\n")
+        print("x tgt: " + x_tgt_line + "\n")
+        print("x out: " + x_out_line + "\n")
+        print ("")
+
 
 
 def print_parameter_list(model):

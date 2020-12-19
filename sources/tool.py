@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @Author: Xiaoyuan Yi
 # @Last Modified by:   Xiaoyuan Yi
-# @Last Modified time: 2020-12-05 16:56:02
+# @Last Modified time: 2020-12-18 15:48:18
 # @Email: yi-xy16@mails.tsinghua.edu.cn
 # @Description:
 '''
@@ -222,6 +222,56 @@ class Tool(object):
     def get_valid_batch(self, idx):
         return self._valid_data[idx]
 
+
+    def build_lm_train_data(self, unpaired_data_path, paired_data_path, data_limit=None):
+        batches = self.build_lm_data_core(unpaired_data_path, paired_data_path, data_limit)
+        self._train_data = batches
+        self.train_batch_num = len(self._train_data)
+
+    def build_lm_valid_data(self, unpaired_data_path, paired_data_path, data_limit=None):
+        batches = self.build_lm_data_core(unpaired_data_path, paired_data_path, data_limit)
+        self._valid_data = batches
+        self.valid_batch_num = len(self._valid_data)
+
+
+    def build_lm_data_core(self, unpaired_data_path, paired_data_path, data_limit=None):
+        '''
+        build data as batches.
+        NOTE: please run build_vocab() at first.
+        '''
+        unpaired_data = self.load_data(unpaired_data_path)
+        paired_data = self.load_data(paired_data_path)
+
+        data = []
+
+        if paired_data is not None:
+            source_data = unpaired_data + paired_data
+        else:
+            source_data = unpaired_data
+
+        for vec in source_data:
+            for (sent, label) in vec:
+                data.append(sent)
+
+        if data_limit is not None:
+            data = data[0:data_limit]
+
+
+        batch_num = int(np.ceil(len(data) / float(self._bsz)))
+        batches = []
+        for bi in range(0, batch_num):
+            sents = self.extract_batch(data, bi)
+            batch = self._build_batch(sents)
+            batches.append(batch)
+
+        return batches
+
+
+    def shuffle_lm_training_data(self):
+        random.shuffle(self._train_data)
+
+
+    # -----------------------------------------------
     def build_train_data(self, unpaired_data_path, paired_data_path, data_limit=None, combine=False):
         self._train_style_data, self._train_paired_data = \
             self.build_gen_data(unpaired_data_path, paired_data_path, self._r_superv, data_limit, combine)
@@ -234,7 +284,7 @@ class Tool(object):
         self._valid_style_data, self._valid_paired_data = \
             self.build_gen_data(unpaired_data_path, paired_data_path, 1.0, data_limit, combine)
         self._valid_data = self.build_blocks(self._valid_style_data, self._valid_paired_data,
-            False)
+            self._corruption)
         self.valid_batch_num = len(self._valid_data)
 
 
@@ -254,7 +304,7 @@ class Tool(object):
                 for dic in vec:
                     label = dic['label']
                     sent = self.sent2indices(dic['sent'])
-                    if len(sent) > self._max_len - 1:
+                    if len(sent) > self._max_len - 1 or len(sent) < 6:
                         skip_flag = True
                         break
                     new_vec.append((sent, label))
@@ -380,10 +430,15 @@ class Tool(object):
                 y_batch = self._build_batch(y_sents, max_len) # (B, T)
                 assert y_ins_batch.size(2) == y_batch.size(1)
                 superv_count += 1
+                x_tgt_batch = None
 
             else:
                 x_sents = self.extract_batch(style_data[x_id], unsuperv_count)
-                x_batch = self._build_batch(x_sents, corrupt=corruption)
+                if corruption:
+                    x_batch, x_tgt_batch = self._build_batch_corrupt(x_sents)
+                else:
+                    x_batch = self._build_batch(x_sents)
+                    x_tgt_batch = None
                 y_sents = []
 
                 # style instances, (K*B, T)
@@ -395,7 +450,7 @@ class Tool(object):
                 y_batch = None
                 unsuperv_count += 1
 
-            block_data.append((x_batch, x_ins_batch, y_ins_batch, x_id, y_id, y_batch))
+            block_data.append((x_batch, x_ins_batch, y_ins_batch, x_id, y_id, y_batch, x_tgt_batch))
 
         return block_data
 
@@ -413,6 +468,7 @@ class Tool(object):
 
         self._train_data = self.build_blocks(self._train_style_data, self._train_paired_data, self._corruption)
         self.train_batch_num = len(self._train_data)
+
 
 
     def sample_instances(self, style_data, confict_sents):
@@ -444,11 +500,80 @@ class Tool(object):
 
     # ------------------------------------------------------------
     # ------------------------------------------------------------
-    def _build_batch(self, sents, max_len=None, corrupt=False):
+    def _build_batch(self, sents, max_len=None):
         #print (len(instances))
-        batch = self._get_batch_sen(sents, len(sents), True, max_len, corrupt)
+        batch = self._get_batch_sen(sents, len(sents), True, max_len)
         batch_tensor = self.batch2tensor(batch)
         return batch_tensor
+
+    def _get_batch_sen(self, sents, batch_size,
+        with_BE=False, required_max_len=None):
+
+        assert len(sents) == batch_size
+        max_len = max([len(sent) for sent in sents])
+
+        if required_max_len is not None:
+            max_len = required_max_len
+
+        batched_sents = []
+
+        for i in range(batch_size):
+            sent = sents[i]
+
+            pad_size = max_len - len(sent)
+
+            pads = [self.pad_idx] * pad_size
+
+            if with_BE:
+                new_sent = [self.bos_idx] + sent + [self.eos_idx] + pads
+            else:
+                new_sent = sent + pads
+
+            batched_sents.append(new_sent)
+
+        return batched_sents
+
+
+    # ------------------------------------
+    def _build_batch_corrupt(self, sents, max_len=None):
+        #print (len(instances))
+        inp_batch, tgt_batch = self._get_batch_sen_corrupt(sents, len(sents), True, max_len)
+        inp_tensor = self.batch2tensor(inp_batch)
+        tgt_tensor = self.batch2tensor(tgt_batch)
+        return inp_tensor, tgt_tensor
+
+
+    def _get_batch_sen_corrupt(self, sents, batch_size,
+        with_BE=False, required_max_len=None):
+
+        assert len(sents) == batch_size
+        max_len = max([len(sent) for sent in sents])
+
+        if required_max_len is not None:
+            max_len = required_max_len
+
+        batched_sents = []
+        batched_c_sents = []
+
+        for i in range(batch_size):
+            sent = sents[i]
+            c_sent = self._do_corruption(sent)
+
+            pad_size = max_len - len(sent)
+
+            pads = [self.pad_idx] * pad_size
+
+            if with_BE:
+                new_sent = [self.bos_idx] + sent + [self.eos_idx] + pads
+                new_c_sent = [self.bos_idx] + c_sent + [self.eos_idx] + pads
+            else:
+                new_sent = sent + pads
+                new_c_sent = c_sent + pads
+
+            batched_sents.append(new_sent)
+            batched_c_sents.append(new_c_sent)
+
+        return batched_c_sents, batched_sents
 
 
     def _do_corruption(self, inp):
@@ -466,36 +591,6 @@ class Tool(object):
 
         return corrupted_inp
 
-
-    def _get_batch_sen(self, sents, batch_size,
-        with_BE=False, required_max_len=None, corrupt=False):
-
-        assert len(sents) == batch_size
-        max_len = max([len(sent) for sent in sents])
-
-        if required_max_len is not None:
-            max_len = required_max_len
-
-        batched_sents = []
-
-        for i in range(batch_size):
-            sent = sents[i]
-
-            if corrupt:
-                sent = self._do_corruption(sent)
-
-            pad_size = max_len - len(sent)
-
-            pads = [self.pad_idx] * pad_size
-
-            if with_BE:
-                new_sent = [self.bos_idx] + sent + [self.eos_idx] + pads
-            else:
-                new_sent = sent + pads
-
-            batched_sents.append(new_sent)
-
-        return batched_sents
 
 
     def rebuild_outs(self, logits):
@@ -527,7 +622,7 @@ class Tool(object):
         indices = self.sent2indices(sen)
 
         batch = [indices for _ in range(0, beam_size)]
-        src = self._build_batch(batch, None, False)
+        src = self._build_batch(batch, None)
 
         return src
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @Author: Xiaoyuan Yi
 # @Last Modified by:   Xiaoyuan Yi
-# @Last Modified time: 2020-12-04 16:34:08
+# @Last Modified time: 2020-12-17 22:14:55
 # @Email: yi-xy16@mails.tsinghua.edu.cn
 # @Description:
 '''
@@ -25,6 +25,10 @@ class RateDecay(object):
         self.decay_steps = decay_steps
 
         self.limit_v = limit_v
+
+
+    def set_rate(self, rate):
+        self.rate = rate
 
 
     def decay_funtion(self):
@@ -52,6 +56,7 @@ class LinearDecay(RateDecay):
 
         self._max_v = max_v
         self._alpha = (self._max_v-min_v) / decay_steps
+        self.set_rate(max_v)
 
     def decay_funtion(self):
         new_rate = max(self._max_v-self._alpha * self.step, self.limit_v)

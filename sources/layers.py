@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @Author: Xiaoyuan Yi
 # @Last Modified by:   Xiaoyuan Yi
-# @Last Modified time: 2020-12-04 22:20:43
+# @Last Modified time: 2020-12-17 16:10:16
 # @Email: yi-xy16@mails.tsinghua.edu.cn
 # @Description:
 '''
@@ -204,6 +204,9 @@ class Criterion(nn.Module):
         non_pad_mask = tgts.ne(self._pad_idx)
 
         loss = self._criterion(outs, tgts) # [N]
-        loss = loss.masked_select(non_pad_mask).mean()
+        loss = loss.masked_select(non_pad_mask)
 
-        return loss
+        #loss = torch.where(torch.isnan(loss), torch.full_like(loss, 0.0), loss)
+        #loss = torch.where(torch.isinf(loss), torch.full_like(loss, 1.0), loss)
+
+        return loss.mean()

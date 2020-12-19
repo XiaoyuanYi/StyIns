@@ -18,7 +18,7 @@ import json
 ''''construction for Evaluator'''
 class Validator(object):
 
-    def __init__(self, valid_file, device, num=5000):
+    def __init__(self, valid_file, device, num=500):
         self._device = device
 
         # reading validation data for testing BLEU
