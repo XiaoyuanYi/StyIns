@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @Author: Xiaoyuan Yi
 # @Last Modified by:   Xiaoyuan Yi
-# @Last Modified time: 2020-12-18 20:42:24
+# @Last Modified time: 2020-12-19 10:11:53
 # @Email: yi-xy16@mails.tsinghua.edu.cn
 # @Description:
 '''
@@ -99,7 +99,7 @@ class LMTrainer(object):
             # -------------------------------------------------------------
             if step % self.hps.pre_log_steps == 0:
                 logger.set_end_time()
-                utils.sample_pre(x, x_outs, self.hps.sample_num, tool)
+                utils.sample_lm(x, x_outs, self.hps.sample_num, tool)
                 logger.print_log()
                 logger.set_start_time()
 
