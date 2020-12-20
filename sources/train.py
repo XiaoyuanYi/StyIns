@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # @Author: Xiaoyuan Yi
 # @Last Modified by:   Xiaoyuan Yi
-# @Last Modified time: 2020-12-19 10:40:32
+# @Last Modified time: 2020-12-20 09:16:41
 # @Email: yi-xy16@mails.tsinghua.edu.cn
 # @Description:
 '''
@@ -30,12 +30,15 @@ def parse_args():
 def pretrain(generator, tool, hps, specified_device, pretrain_method):
     if pretrain_method == 'lm':
         pre_trainer = LMTrainer(hps, specified_device)
+        print ("pretraining...")
+        pre_trainer.train(tool)
+        print ("pretraining done!")
     else:
         pre_trainer = DAETrainer(hps, specified_device)
+        print ("pretraining...")
+        pre_trainer.train(generator, tool)
+        print ("pretraining done!")
 
-    print ("pretraining...")
-    pre_trainer.train(tool)
-    print ("pretraining done!")
 
 
 def train(generator, discriminator, tool, hps, specified_device, pretrain_method):
