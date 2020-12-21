@@ -40,7 +40,7 @@ yelp_hps = HParams(
    infor_nats=0.125, infor_groups=128, # hyper-parameters for the kl objective
 
    # sentences that are longger than max_len will be removed
-   batch_size=128, max_epoches=20, max_len=12, sample_num=1,
+   batch_size=128, max_epoches=12, max_len=20, sample_num=1,
    save_epoches=2, valid_epoches=1, log_steps=200,
 
    train_log_path="../log/yelp_train_log.txt",
